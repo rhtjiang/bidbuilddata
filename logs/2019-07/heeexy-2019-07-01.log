@@ -1,0 +1,5 @@
+2019-07-01 11:05:59.529 INFO  --- [StartupInfoLogger.java:50][restartedMain] - Starting UserModelApplication on rht_computer with PID 32540 (D:\Chromee\bidbuilddata\user-model\target\classes started by Lee in D:\Chromee\bidbuilddata)
+2019-07-01 11:05:59.529 INFO  --- [SpringApplication.java:662][restartedMain] - No active profile set, falling back to default profiles: default
+2019-07-01 11:06:00.697 INFO  --- [DruidDataSourceAutoConfigure.java:56][restartedMain] - Init DruidDataSource
+2019-07-01 11:06:00.869 INFO  --- [DruidDataSource.java:930][restartedMain] - {dataSource-1} inited
+2019-07-01 11:06:02.137 INFO  --- [StartupInfoLogger.java:59][restartedMain] - Started UserModelApplication in 2.954 seconds (JVM running for 4.338)
