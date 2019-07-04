@@ -66,7 +66,6 @@ public class ExcelUtil {
 
             ArrayList<Object> colList;
 
-          //  HSSFWorkbook wb = new HSSFWorkbook(new FileInputStream(file));
             HSSFRow row;
 
             HSSFCell cell;
@@ -92,11 +91,12 @@ public class ExcelUtil {
                 for (int j = row.getFirstCellNum(); j <= row.getLastCellNum(); j++) {
 
                     cell = row.getCell(j);
-                    if (cell == null || cell.getCellType() == HSSFCell.CELL_TYPE_BLANK) {
+                    if (cell == null || cell.equals(" ") || cell.getCellType() == HSSFCell.CELL_TYPE_BLANK) {
                         //当该单元格为空
-                        if (j != row.getLastCellNum()) {//判断是否是该行中最后一个单元格
+                       if (j != row.getLastCellNum()) {//判断是否是该行中最后一个单元格
+                           System.out.println(cell);
+                            colList.add(null);
 
-                            colList.add("");
                         }
                         continue;
 
@@ -131,24 +131,28 @@ public class ExcelUtil {
                             value = Boolean.valueOf(cell.getBooleanCellValue());
                             break;
                         case XSSFCell.CELL_TYPE_BLANK:
-                            value = "";
+                            value = null;
                             break;
                         default:
                             value = cell.toString();
 
 
                     }
+                    if (value.equals("") ||value.equals(" ") ||value.equals("  ")){
+                        colList.add("null");
+                    }else {
                         colList.add(value);
+                    }
+
 
                 }
-              //  System.out.println(colList);
                 if (colList.size()>0){
                     rowList.add(colList);
                 }
 
             }//end for i
 
-
+        //    System.out.println(rowList);
             return rowList;
 
         } catch (Exception e) {
