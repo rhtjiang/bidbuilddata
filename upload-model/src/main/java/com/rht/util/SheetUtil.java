@@ -61,23 +61,28 @@ public class SheetUtil {
             String list_name = (String) arrayLists.get(i).get(3);
             //清单描述
             String miao = (String) arrayLists.get(i).get(4);
-            if (!list_name.equals("分部小计") && !list_name.equals("项目名称") && !list_name.equals("") && !miao.equals("")) {
+            if (!list_name.equals("项目名称") && !list_name.contains("null")) {
                 arrayLists.get(i).set(11, p_name);
                 rowList.add(arrayLists.get(i));
             }
         }
-
-
-        /*for (int i = 0; i < rowList.size(); i++) {
-
-            if (rowList.get(i).get(0).toString().equals("")&&rowList.get(i+1).get(0).toString().equals("")){
-                String l_name1 = (String)rowList.get(i).get(3);
-                String l_name2 = (String)rowList.get(i+1).get(3);
-                String l_name = l_name1.concat(l_name2);
-                System.out.println(l_name);
+        //循环进行字符串拼接
+        for (int i = 0; i < rowList.size() - 1; i++) {
+            //处理分部名称因为一个空格没有写完，遗留到下一行的进行拼接
+            if (rowList.get(i).get(0).toString().contains("null") && rowList.get(i + 1).get(0).toString().contains("null") && rowList.get(i + 2).get(0).toString().contains("null")) {
+                if (i < rowList.size()) {
+                    String l_name1 = (String) rowList.get(i+1).get(3);
+                    String l_name2 = (String) rowList.get(i+2).get(3);
+                    String l_name = l_name1.concat(l_name2);
+                    rowList.get(i + 1).set(3,l_name);
+                } else {
+                    break;
+                }
             }
+            //处理清单名称
 
-        }*/
+
+        }
 
         System.out.println(rowList);
 
