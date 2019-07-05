@@ -94,7 +94,6 @@ public class ExcelUtil {
                     if (cell == null || cell.equals(" ") || cell.getCellType() == HSSFCell.CELL_TYPE_BLANK) {
                         //当该单元格为空
                        if (j != row.getLastCellNum()) {//判断是否是该行中最后一个单元格
-                           System.out.println(cell);
                             colList.add(null);
 
                         }
@@ -152,7 +151,6 @@ public class ExcelUtil {
 
             }//end for i
 
-        //    System.out.println(rowList);
             return rowList;
 
         } catch (Exception e) {
