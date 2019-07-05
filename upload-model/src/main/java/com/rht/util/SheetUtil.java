@@ -29,7 +29,13 @@ public class SheetUtil {
                 sheetName = wb.getSheetAt(i).getSheetName();
 
                 if (sheetName.contains("分部分项工程")) {
-                    readPartial(file, sheetName);
+                    // readPartial(file, sheetName);
+                } else if (sheetName.contains("总价措施项目")) {
+                    // readMeasure(file, sheetName);
+                } else if (sheetName.contains("税金项目")) {
+                //    readTaxes(file, sheetName);
+                } else if (sheetName.contains("材料")){
+                    readMaterials(file,sheetName);
                 }
 
             }
@@ -144,9 +150,9 @@ public class SheetUtil {
                 su.setPrickle(rowList.get(i).get(5).toString());
                 su.setAmount(Double.parseDouble(rowList.get(i).get(6).toString()));
                 su.setI_unit(Double.parseDouble(rowList.get(i).get(8).toString()));
-                if (rowList.get(i).get(11).toString().contains("null")){
+                if (rowList.get(i).get(11).toString().contains("null")) {
                     su.setEvaluate(0);
-                }else {
+                } else {
                     su.setEvaluate(Double.parseDouble(rowList.get(i).get(11).toString()));
 
                 }
@@ -157,22 +163,111 @@ public class SheetUtil {
         }
     }
 
-   //**************************单价措施表暂时不写，确定下来之后再确定***************
+    //**************************单价措施表暂时不写，确定下来之后再确定***************
 
     /**
      * 总价措施费
+     *
      * @param file
      * @param filename
      */
     public static void readMeasure(File file, String filename) {
+        HSSFSheet sheet = wb.getSheet(filename);
+        ExcelUtil excelUtil = new ExcelUtil();
+        //sheet接收的数据
+        ArrayList<ArrayList<Object>> arrayLists = excelUtil.readExcel(file, sheet);
+        //重新包装的数据
+        ArrayList<ArrayList<Object>> rowList = new ArrayList<ArrayList<Object>>();
+        //工程名称
+        String p_name = (String) arrayLists.get(1).get(2);
+        //遍历元素
+        for (int i = 0; i < arrayLists.size(); i++) {
+            //清单名称
+            String list_name = (String) arrayLists.get(i).get(3);
+            //清单描述
+            String base = (String) arrayLists.get(i).get(4);
+            if (!list_name.equals("项目名称") && !list_name.contains("null")) {
+                arrayLists.get(i).set(2, p_name);
+                rowList.add(arrayLists.get(i));
+            }
+        }
+        //循环获取并赋值给总价措施对象
+        for (int i = 0; i < rowList.size(); i++) {
+
+        }
 
 
+    }
 
+    /**
+     * 读取规费、税金并存储
+     *
+     * @param file
+     * @param filename
+     */
+    public static void readTaxes(File file, String filename) {
+
+        HSSFSheet sheet = wb.getSheet(filename);
+        ExcelUtil excelUtil = new ExcelUtil();
+        //sheet接收的数据
+        ArrayList<ArrayList<Object>> arrayLists = excelUtil.readExcel(file, sheet);
+        //重新包装的数据
+        ArrayList<ArrayList<Object>> taxesList = new ArrayList<ArrayList<Object>>();
+        //工程名称
+        String p_name = (String) arrayLists.get(1).get(1);
+        //遍历元素
+        for (int i = 0; i < arrayLists.size(); i++) {
+            if (!arrayLists.get(i).get(1).toString().equals("项目名称") && !arrayLists.get(i).get(1).toString().contains("null")) {
+                arrayLists.get(i).add(p_name);
+                if (!arrayLists.get(i).get(0).toString().contains("工程名称")) {
+                    taxesList.add(arrayLists.get(i));
+                }
+            }
+
+        }
+        //循环获取并赋值给总价措施对象
+        for (int i = 0; i < taxesList.size(); i++) {
+            System.out.println(taxesList.get(i));
+        }
 
 
     }
 
 
+    /**
+     * 读取材料与工程设备并存储
+     *
+     * @param file
+     * @param filename
+     */
+    public static void readMaterials(File file, String filename) {
+
+        HSSFSheet sheet = wb.getSheet(filename);
+        ExcelUtil excelUtil = new ExcelUtil();
+        //sheet接收的数据
+        ArrayList<ArrayList<Object>> arrayLists = excelUtil.readExcel(file, sheet);
+        //重新包装的数据
+        ArrayList<ArrayList<Object>> mList = new ArrayList<ArrayList<Object>>();
+        //工程名称
+        String p_name = (String) arrayLists.get(1).get(1);
+        //遍历元素
+        for (int i = 0; i < arrayLists.size(); i++) {
+           if (!arrayLists.get(i).get(1).toString().contains("null")&&!arrayLists.get(i).get(0).toString().contains("序号")){
+              arrayLists.get(i).add(p_name);
+              if (!arrayLists.get(i).get(0).toString().contains("工程名称")){
+                  mList.add(arrayLists.get(i));
+              }
+           }
+
+        }
+        //循环获取并赋值给总价措施对象
+        for (int i=0;i<mList.size();i++){
+            System.out.println(mList.get(i));
+        }
+
+
+
+    }
 
 
 
