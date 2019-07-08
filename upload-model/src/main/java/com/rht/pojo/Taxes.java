@@ -13,6 +13,7 @@ public class Taxes {
     //计算费率
     private String rate;
     //金额
+
     private String money;
     //工程名称
     private String b_name;
