@@ -20,13 +20,15 @@ public class Materials {
     private String ack_unit;
     //备注
     private String comment;
+    //工程名称
+    private String b_name;
 
 
     public Materials() {
         super();
     }
 
-    public Materials(int id, String m_name, String prickle, String amount, String risk_facto, String base_unit, String tender_unit, String ack_unit, String comment) {
+    public Materials(int id, String m_name, String prickle, String amount, String risk_facto, String base_unit, String tender_unit, String ack_unit, String comment, String b_name) {
         this.id = id;
         this.m_name = m_name;
         this.prickle = prickle;
@@ -36,6 +38,7 @@ public class Materials {
         this.tender_unit = tender_unit;
         this.ack_unit = ack_unit;
         this.comment = comment;
+        this.b_name = b_name;
     }
 
     public int getId() {
@@ -110,6 +113,15 @@ public class Materials {
         this.comment = comment;
     }
 
+    public String getB_name() {
+        return b_name;
+    }
+
+    public void setB_name(String b_name) {
+        this.b_name = b_name;
+    }
+
+
     @Override
     public String toString() {
         return "Materials{" +
@@ -122,6 +134,7 @@ public class Materials {
                 ", tender_unit='" + tender_unit + '\'' +
                 ", ack_unit='" + ack_unit + '\'' +
                 ", comment='" + comment + '\'' +
+                ", b_name='" + b_name + '\'' +
                 '}';
     }
 }

@@ -1,6 +1,9 @@
 package com.rht.util;
 
+import com.rht.pojo.Materials;
+import com.rht.pojo.Measure;
 import com.rht.pojo.SubProject;
+import com.rht.pojo.Taxes;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
@@ -31,11 +34,11 @@ public class SheetUtil {
                 if (sheetName.contains("分部分项工程")) {
                     // readPartial(file, sheetName);
                 } else if (sheetName.contains("总价措施项目")) {
-                    // readMeasure(file, sheetName);
+                    //      readMeasure(file, sheetName);
                 } else if (sheetName.contains("税金项目")) {
-                //    readTaxes(file, sheetName);
-                } else if (sheetName.contains("材料")){
-                    readMaterials(file,sheetName);
+                    // readTaxes(file, sheetName);
+                } else if (sheetName.contains("材料")) {
+                    readMaterials(file, sheetName);
                 }
 
             }
@@ -187,16 +190,26 @@ public class SheetUtil {
             //清单描述
             String base = (String) arrayLists.get(i).get(4);
             if (!list_name.equals("项目名称") && !list_name.contains("null")) {
-                arrayLists.get(i).set(2, p_name);
+                arrayLists.get(i).add(p_name);
                 rowList.add(arrayLists.get(i));
             }
         }
         //循环获取并赋值给总价措施对象
+        List<Measure> me = new ArrayList<>();
         for (int i = 0; i < rowList.size(); i++) {
-
+            //申明总价措施对象
+            Measure mea = new Measure();
+            mea.setBop(rowList.get(i).get(1).toString());
+            mea.setP_name(rowList.get(i).get(3).toString());
+            mea.setBase(rowList.get(i).get(5).toString());
+            mea.setRate(rowList.get(i).get(6).toString());
+            mea.setMoney(rowList.get(i).get(7).toString());
+            mea.setAdjust_rate(rowList.get(i).get(8).toString());
+            mea.setAdjust_after_money(rowList.get(i).get(10).toString());
+            mea.setComment(rowList.get(i).get(11).toString());
+            mea.setB_name(rowList.get(i).get(12).toString());
+            me.add(mea);
         }
-
-
     }
 
     /**
@@ -226,11 +239,17 @@ public class SheetUtil {
 
         }
         //循环获取并赋值给总价措施对象
+        List<Taxes> taxes = new ArrayList<>();
         for (int i = 0; i < taxesList.size(); i++) {
-            System.out.println(taxesList.get(i));
+            Taxes ta = new Taxes();
+            ta.setP_name(taxesList.get(i).get(1).toString());
+            ta.setBase(taxesList.get(i).get(2).toString());
+            ta.setBase_number(taxesList.get(i).get(3).toString());
+            ta.setRate(taxesList.get(i).get(4).toString());
+            ta.setMoney(taxesList.get(i).get(5).toString());
+            ta.setB_name(taxesList.get(i).get(6).toString());
+            taxes.add(ta);
         }
-
-
     }
 
 
@@ -252,23 +271,32 @@ public class SheetUtil {
         String p_name = (String) arrayLists.get(1).get(1);
         //遍历元素
         for (int i = 0; i < arrayLists.size(); i++) {
-           if (!arrayLists.get(i).get(1).toString().contains("null")&&!arrayLists.get(i).get(0).toString().contains("序号")){
-              arrayLists.get(i).add(p_name);
-              if (!arrayLists.get(i).get(0).toString().contains("工程名称")){
-                  mList.add(arrayLists.get(i));
-              }
-           }
+            if (!arrayLists.get(i).get(1).toString().contains("null") && !arrayLists.get(i).get(0).toString().contains("序号")) {
+                arrayLists.get(i).add(p_name);
+                if (!arrayLists.get(i).get(0).toString().contains("工程名称")) {
+                    mList.add(arrayLists.get(i));
+                }
+            }
 
         }
         //循环获取并赋值给总价措施对象
-        for (int i=0;i<mList.size();i++){
-            System.out.println(mList.get(i));
+        List<Materials> materials = new ArrayList<>();
+        for (int i = 0; i < mList.size(); i++) {
+            Materials mat = new Materials();
+            mat.setM_name(mList.get(i).get(1).toString());
+            mat.setPrickle(mList.get(i).get(2).toString());
+            mat.setAmount(mList.get(i).get(3).toString());
+            mat.setRisk_facto(mList.get(i).get(4).toString());
+            mat.setBase_unit(mList.get(i).get(6).toString());
+            mat.setTender_unit(mList.get(i).get(7).toString());
+            mat.setAck_unit(mList.get(i).get(8).toString());
+            mat.setComment(mList.get(i).get(9).toString());
+            mat.setB_name(mList.get(i).get(10).toString());
+            materials.add(mat);
         }
 
 
-
     }
-
 
 
     public static void main(String[] args) {
