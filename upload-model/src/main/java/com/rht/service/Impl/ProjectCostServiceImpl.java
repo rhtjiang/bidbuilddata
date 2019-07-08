@@ -18,21 +18,21 @@ public class ProjectCostServiceImpl implements ProjectCostService {
 
     @Override
     public int loadSubProject(List<SubProject> sub) {
-        return 0;
+        return projectCostMapper.insertSubProject(sub);
     }
 
     @Override
     public int loadMeasure(List<Measure> mea) {
-        return 0;
+        return projectCostMapper.insertMeasure(mea);
     }
 
     @Override
     public int loadTaxes(List<Taxes> tax) {
-        return 0;
+        return projectCostMapper.insertTaxes(tax);
     }
 
     @Override
     public int loadMaterials(List<Materials> mat) {
-        return 0;
+        return projectCostMapper.insertMaterials(mat);
     }
 }
