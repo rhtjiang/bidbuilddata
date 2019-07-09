@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!--namespace名称与mapper接口全路径一致-->
+<mapper namespace="com.rht.mapper.ProjectCostMapper">
+
+    <!-- 将数据存入分部分项表 -->
+    <insert id="insertSubProject" parameterType="List">
+        insert into t_subproject (bop,p_name,p_detail,prickle,amount,i_unit,evaluate,partial_name,b_name) values
+        <foreach collection="lsit" item="item" index="index" separator=",">
+            (#{item.bop},#{item.p_name},#{item.p_detail},#{item.prickle},#{item.amount},#{item.i_unit},#{item.evaluate},#{item.partial_name},#{item.b_name})
+        </foreach>
+    </insert>
+    <!-- 将数据存入单价措施表 -->
+    <insert id="" parameterType="List">
+
+    </insert>
+    <!-- 将数据存入总价措施表 -->
+    <insert id="insertMeasure" parameterType="List">
+        insert into t_measure (bop,p_name,base,rate,money,adjust_rate,adjust_after_money,comment,b_name) values
+        <foreach collection="lsit" item="item" index="index" separator=",">
+            (#{item.bop},#{item.p_name},#{item.base},#{item.rate},#{item.money},#{item.adjust_rate},#{item.adjust_after_money},#{item.comment},#{item.b_name})
+        </foreach>
+    </insert>
+    <!-- 将数据存入规费税金表 -->
+    <insert id="insertTaxes" parameterType="List">
+        insert into t_taxes (p_name,base,base_number,rate,money,b_name) values
+        <foreach collection="lsit" item="item" index="index" separator=",">
+            #{item.p_name},#{item.base},#{item.base_number},#{item.rate},#{item.money},#{item.b_name})
+        </foreach>
+    </insert>
+    <!-- 将数据存入项目材料表 -->
+    <insert id="insertMaterials" parameterType="List">
+        insert into t_materials (m_name,prickle,amount,risk_facto,base_unit,tender_unit,ack_unit,comment,b_name) values
+        <foreach collection="lsit" item="item" index="index" separator=",">
+            #{item.m_name},#{item.prickle},#{item.amount},#{item.risk_facto},#{item.base_unit},#{item.tender_unit}),#{item.ack_unit}),#{item.comment}),#{item.b_name})
+        </foreach>
+    </insert>
+
+
+</mapper>
