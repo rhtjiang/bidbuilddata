@@ -4,47 +4,65 @@ import com.rht.pojo.Materials;
 import com.rht.pojo.Measure;
 import com.rht.pojo.SubProject;
 import com.rht.pojo.Taxes;
+import com.rht.service.ProjectCostService;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
+@Component
 public class SheetUtil {
 
     //读取excel页
     private static HSSFWorkbook wb;
+    @Autowired
+    private ProjectCostService projectCostService;
 
 
     /**
      * 通过不同的sheet来调取读的任务
      */
-    public static void readSheet(File file) {
+
+    public String readSheet(File file) {
         file = new File("C:\\Users\\Lee\\Desktop\\仪陇县国有林场棚户区(危旧房)改造工程.xls");
         String sheetName = null;
+        boolean su = false;
+        boolean me = false;
+        boolean ta = false;
+        boolean ma = false;
         try {
             wb = new HSSFWorkbook(new FileInputStream(file));
             //循环获取所有的sheet页名称
+
             for (int i = 0; i < wb.getNumberOfSheets(); i++) {
                 sheetName = wb.getSheetAt(i).getSheetName();
-
                 if (sheetName.contains("分部分项工程")) {
-                    // readPartial(file, sheetName);
+                    List<SubProject> subProjects = readPartial(file, sheetName);
+                    su = projectCostService.loadSubProject(subProjects);
                 } else if (sheetName.contains("总价措施项目")) {
-                    //      readMeasure(file, sheetName);
+                    List<Measure> measures = readMeasure(file, sheetName);
+                    me = projectCostService.loadMeasure(measures);
                 } else if (sheetName.contains("税金项目")) {
-                    // readTaxes(file, sheetName);
+                    List<Taxes> taxes = readTaxes(file, sheetName);
+                    ta = projectCostService.loadTaxes(taxes);
                 } else if (sheetName.contains("材料")) {
-                    readMaterials(file, sheetName);
+                    List<Materials> materials = readMaterials(file, sheetName);
+                    ma = projectCostService.loadMaterials(materials);
                 }
 
             }
-
         } catch (IOException e) {
             e.printStackTrace();
+        }
+        if (su && me && ta && ma) {
+            return "解析成功";
+        } else {
+            return "解析失败";
         }
 
 
@@ -56,7 +74,7 @@ public class SheetUtil {
      *
      * @param file
      */
-    public static void readPartial(File file, String filename) {
+    public List<SubProject> readPartial(File file, String filename) {
         HSSFSheet sheet = wb.getSheet(filename);
         ExcelUtil excelUtil = new ExcelUtil();
         //sheet接收的数据
@@ -164,6 +182,7 @@ public class SheetUtil {
                 sub.add(su);
             }
         }
+        return sub;
     }
 
     //**************************单价措施表暂时不写，确定下来之后再确定***************
@@ -174,7 +193,7 @@ public class SheetUtil {
      * @param file
      * @param filename
      */
-    public static void readMeasure(File file, String filename) {
+    public List<Measure> readMeasure(File file, String filename) {
         HSSFSheet sheet = wb.getSheet(filename);
         ExcelUtil excelUtil = new ExcelUtil();
         //sheet接收的数据
@@ -210,6 +229,7 @@ public class SheetUtil {
             mea.setB_name(rowList.get(i).get(12).toString());
             me.add(mea);
         }
+        return me;
     }
 
     /**
@@ -218,7 +238,7 @@ public class SheetUtil {
      * @param file
      * @param filename
      */
-    public static void readTaxes(File file, String filename) {
+    public List<Taxes> readTaxes(File file, String filename) {
 
         HSSFSheet sheet = wb.getSheet(filename);
         ExcelUtil excelUtil = new ExcelUtil();
@@ -250,6 +270,7 @@ public class SheetUtil {
             ta.setB_name(taxesList.get(i).get(6).toString());
             taxes.add(ta);
         }
+        return taxes;
     }
 
 
@@ -259,7 +280,7 @@ public class SheetUtil {
      * @param file
      * @param filename
      */
-    public static void readMaterials(File file, String filename) {
+    public List<Materials> readMaterials(File file, String filename) {
 
         HSSFSheet sheet = wb.getSheet(filename);
         ExcelUtil excelUtil = new ExcelUtil();
@@ -295,12 +316,8 @@ public class SheetUtil {
             materials.add(mat);
         }
 
-
+        return materials;
     }
 
 
-    public static void main(String[] args) {
-        File file = new File("");
-        readSheet(file);
-    }
 }

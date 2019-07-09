@@ -8,8 +8,10 @@ import com.rht.pojo.Taxes;
 import com.rht.service.ProjectCostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+
 @Service("ProjectCostService")
 public class ProjectCostServiceImpl implements ProjectCostService {
     @Autowired
@@ -17,22 +19,42 @@ public class ProjectCostServiceImpl implements ProjectCostService {
 
 
     @Override
-    public int loadSubProject(List<SubProject> sub) {
-        return projectCostMapper.insertSubProject(sub);
+    @Transactional
+    public boolean loadSubProject(List<SubProject> sub) {
+        int i = projectCostMapper.insertSubProject(sub);
+        if (i < 0) {
+            return false;
+        }
+        return true;
     }
 
     @Override
-    public int loadMeasure(List<Measure> mea) {
-        return projectCostMapper.insertMeasure(mea);
+    @Transactional
+    public boolean loadMeasure(List<Measure> mea) {
+        int i = projectCostMapper.insertMeasure(mea);
+        if (i < 0) {
+            return false;
+        }
+        return true;
     }
 
     @Override
-    public int loadTaxes(List<Taxes> tax) {
-        return projectCostMapper.insertTaxes(tax);
+    @Transactional
+    public boolean loadTaxes(List<Taxes> tax) {
+        int i = projectCostMapper.insertTaxes(tax);
+        if (i < 0) {
+            return false;
+        }
+        return true;
     }
 
     @Override
-    public int loadMaterials(List<Materials> mat) {
-        return projectCostMapper.insertMaterials(mat);
+    @Transactional
+    public boolean loadMaterials(List<Materials> mat) {
+        int i = projectCostMapper.insertMaterials(mat);
+        if (i < 0) {
+            return false;
+        }
+        return true;
     }
 }

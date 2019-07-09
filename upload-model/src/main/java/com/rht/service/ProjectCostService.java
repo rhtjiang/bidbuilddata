@@ -19,7 +19,7 @@ public interface ProjectCostService {
      * @param sub
      * @return
      */
-    int loadSubProject(@Param("sub") List<SubProject> sub);
+    boolean loadSubProject(@Param("sub") List<SubProject> sub);
 
 
     /**
@@ -28,7 +28,7 @@ public interface ProjectCostService {
      * @param mea
      * @return
      */
-    int loadMeasure(@Param("mea") List<Measure> mea);
+    boolean loadMeasure(@Param("mea") List<Measure> mea);
 
     /**
      * 将读取的规费税金excel存入规费税金表
@@ -36,7 +36,7 @@ public interface ProjectCostService {
      * @param tax
      * @return
      */
-    int loadTaxes(@Param("tax") List<Taxes> tax);
+    boolean loadTaxes(@Param("tax") List<Taxes> tax);
 
     /**
      * 将读取的材料设备excel存入材料表
@@ -44,5 +44,5 @@ public interface ProjectCostService {
      * @param mat
      * @return
      */
-    int loadMaterials(@Param("mat") List<Materials> mat);
+    boolean loadMaterials(@Param("mat") List<Materials> mat);
 }
