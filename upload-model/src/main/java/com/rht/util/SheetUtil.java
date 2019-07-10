@@ -30,7 +30,7 @@ public class SheetUtil {
      */
 
     public static String readSheet(File file) {
-        file = new File("C:\\Users\\Lee\\Desktop\\仪陇县国有林场棚户区(危旧房)改造工程(1定额).xls");
+        file = new File("C:\\Users\\xiaobai\\Desktop\\仪陇县国有林场棚户区(危旧房)改造工程(1定额).xls");
         String sheetName = null;
         boolean su = false;
         boolean me = false;
@@ -42,10 +42,11 @@ public class SheetUtil {
 
             for (int i = 0; i < wb.getNumberOfSheets(); i++) {
                 sheetName = wb.getSheetAt(i).getSheetName();
-                if (sheetName.contains("分部分项工程")) {
-                  //  List<SubProject> subProjects = readPartial(file, sheetName);
-                    //    su = projectCostService.loadSubProject(subProjects);
-                } /*else if (sheetName.contains("总价措施项目")) {
+                //  if (sheetName.contains("分部分项工程")) {
+                //  List<SubProject> subProjects = readPartial(file, sheetName);
+                //    su = projectCostService.loadSubProject(subProjects);
+                //    }
+                /*else if (sheetName.contains("总价措施项目")) {
                     List<Measure> measures = readMeasure(file, sheetName);
                    // me = projectCostService.loadMeasure(measures);
                 } else if (sheetName.contains("税金项目")) {
@@ -55,8 +56,8 @@ public class SheetUtil {
                     List<Materials> materials = readMaterials(file, sheetName);
                   //  ma = projectCostService.loadMaterials(materials);
                 }*/
-                 else if (sheetName.contains("分析表")){
-                         readAnalyze(file,sheetName);
+                if (sheetName.contains("分析表")) {
+                    readAnalyze(file, sheetName);
                 }
             }
         } catch (IOException e) {
@@ -77,7 +78,7 @@ public class SheetUtil {
      *
      * @param file
      */
-    public  List<SubProject> readPartial(File file, String filename) {
+    public List<SubProject> readPartial(File file, String filename) {
         HSSFSheet sheet = wb.getSheet(filename);
         ExcelUtil excelUtil = new ExcelUtil();
         //sheet接收的数据
@@ -322,18 +323,38 @@ public class SheetUtil {
         return materials;
     }
 
-
+    /**
+     * 读取分析表数据
+     *
+     * @param file
+     * @param filename
+     */
     public static void readAnalyze(File file, String filename) {
         HSSFSheet sheet = wb.getSheet(filename);
         ExcelUtil excelUtil = new ExcelUtil();
         //sheet接收的数据
         ArrayList<ArrayList<Object>> arrayLists = excelUtil.readExcel(file, sheet);
+        //重新包装的数据
+        ArrayList<ArrayList<Object>> analyList = new ArrayList<ArrayList<Object>>();
+        String p_name = (String) arrayLists.get(1).get(1);
+        //循环清洗
+        for (int i = 0; i < arrayLists.size(); i++) {
+            if (!arrayLists.get(i).get(1).toString().contains("null") || !arrayLists.get(i).get(2).toString().contains("null")) {
+                arrayLists.get(i).add(p_name);
+                if (!arrayLists.get(i).get(0).toString().contains("工程名称")&& !arrayLists.get(i).get(0).toString().contains("材")&&!arrayLists.get(i).get(0).toString().contains("定额编号")&&!arrayLists.get(i).get(0).toString().contains("人工单价")&&!arrayLists.get(i).get(0).toString().contains("工日")) {
 
-        for (int i=0;i<arrayLists.size();i++){
-            System.out.println(arrayLists.get(i));
+                        analyList.add(arrayLists.get(i));
+
+                }
+            }
+        }
+
+        for (int i=0;i<analyList.size();i++){
+            System.out.println(analyList.get(i));
         }
 
     }
+
     public static void main(String[] args) {
         File file = new File("");
         readSheet(file);
