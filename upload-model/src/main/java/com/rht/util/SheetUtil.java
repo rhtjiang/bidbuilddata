@@ -30,7 +30,7 @@ public class SheetUtil {
      */
 
     public static String readSheet(File file) {
-        file = new File("C:\\Users\\xiaobai\\Desktop\\仪陇县国有林场棚户区(危旧房)改造工程(1定额).xls");
+        file = new File("C:\\Users\\Lee\\Desktop\\仪陇县国有林场棚户区(危旧房)改造工程(1定额).xls");
         String sheetName = null;
         boolean su = false;
         boolean me = false;
@@ -341,16 +341,38 @@ public class SheetUtil {
         for (int i = 0; i < arrayLists.size(); i++) {
             if (!arrayLists.get(i).get(1).toString().contains("null") || !arrayLists.get(i).get(2).toString().contains("null")) {
                 arrayLists.get(i).add(p_name);
-                if (!arrayLists.get(i).get(0).toString().contains("工程名称")&& !arrayLists.get(i).get(0).toString().contains("材")&&!arrayLists.get(i).get(0).toString().contains("定额编号")&&!arrayLists.get(i).get(0).toString().contains("人工单价")&&!arrayLists.get(i).get(0).toString().contains("工日")) {
+                if (!arrayLists.get(i).get(0).toString().contains("工程名称") && !arrayLists.get(i).get(0).toString().contains("材") && !arrayLists.get(i).get(0).toString().contains("定额编号") && !arrayLists.get(i).get(0).toString().contains("人工单价") && !arrayLists.get(i).get(0).toString().contains("工日")) {
 
-                        analyList.add(arrayLists.get(i));
+
+                    analyList.add(arrayLists.get(i));
 
                 }
             }
         }
+        //将项目编码以及项目名称添加到每一行中
+        for (int i = 0; i < analyList.size(); i++) {
+            if (analyList.get(i).get(0).toString().contains("项目编码")) {
+                String bop = (String) analyList.get(i).get(2);
+                String substring = bop.substring(bop.indexOf(")") + 1);
+                analyList.get(i).add(substring);
+                analyList.get(i).add(analyList.get(i).get(6));
+            }
 
-        for (int i=0;i<analyList.size();i++){
-            System.out.println(analyList.get(i));
+        }
+        //循环将每条数据加上清单名称和清单编码
+        for (int i = 0; i < analyList.size() - 1; i++) {
+            if (analyList.get(i).size() > analyList.get(i + 1).size()) {
+                analyList.get(i + 1).add(analyList.get(i).get(13));
+                analyList.get(i + 1).add(analyList.get(i).get(14));
+            }
+        }
+        //循环清洗不需要的数据
+        for (int i = 0; i < analyList.size(); i++) {
+           if (!analyList.get(i).get(1).toString().contains("null") && !analyList.get(i).get(2).toString().contains("单位") && !analyList.get(i).get(1).toString().contains("材料费小计") ){
+              if (!analyList.get(i).get(9).toString().contains("null") || !analyList.get(i).get(10).toString().contains("null")){
+                  System.out.println(analyList.get(i));
+              }
+           }
         }
 
     }
