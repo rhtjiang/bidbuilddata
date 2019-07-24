@@ -85,7 +85,9 @@ public class SysUserServiceImpl  implements SysUserService {
 	
 	@Override
 	public SysUser findByName(String name) {
+		System.out.println(name+"---------------------------------------------------");
 		return sysUserMapper.findByName(name);
+
 	}
 	
 	@Override

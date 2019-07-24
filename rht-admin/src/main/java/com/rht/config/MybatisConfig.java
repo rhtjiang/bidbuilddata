@@ -14,7 +14,7 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
  * Mybatis配置
  */
 @Configuration
-@MapperScan("com.louis.kitty.*.dao")	// 扫描DAO
+@MapperScan("com.rht.dao")	// 扫描DAO
 public class MybatisConfig {
   @Autowired
   private DataSource dataSource;
@@ -24,11 +24,15 @@ public class MybatisConfig {
   public SqlSessionFactory sqlSessionFactory() throws Exception {
     SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
     sessionFactory.setDataSource(dataSource);
-    sessionFactory.setTypeAliasesPackage("com.louis.kitty.*.model");	// 扫描Model
+    sessionFactory.setTypeAliasesPackage("com.rht.model");	// 扫描Model
+    System.out.println("********************************");
     
 	PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
-	sessionFactory.setMapperLocations(resolver.getResources("classpath*:**/sqlmap/*.xml"));	// 扫描映射文件
-	
+	sessionFactory.setMapperLocations(resolver.getResources("classpath:*.*.sqlmap.*.xml"));	// 扫描映射文件
+
+
+    System.out.println("111111111111111**");
+    System.out.println(sessionFactory);
     return sessionFactory.getObject();
   }
 }

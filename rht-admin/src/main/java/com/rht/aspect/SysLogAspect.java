@@ -16,11 +16,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSONObject;
+import org.springframework.stereotype.Service;
 
 
 /**
  * 系统日志，切面处理类，记录日志
  */
+
 @Aspect
 @Component
 public class SysLogAspect {

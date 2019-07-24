@@ -11,8 +11,6 @@ import com.rht.util.PasswordEncoder;
 
 /**
  * 身份验证提供者
- * @author Louis
- * @date Nov 20, 2018
  */
 public class JwtAuthenticationProvider extends DaoAuthenticationProvider {
 

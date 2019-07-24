@@ -6,6 +6,13 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="bid-build-data" />
+        <module name="rht-admin" />
+        <module name="rht-common" />
+        <module name="rht-consul" />
+        <module name="rht-core" />
+        <module name="rht-monitor" />
+        <module name="rht-zuul" />
         <module name="upload-model" />
         <module name="user-model" />
       </profile>

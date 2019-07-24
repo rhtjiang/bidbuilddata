@@ -9,6 +9,12 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/rht-admin/pom.xml" />
+        <option value="$PROJECT_DIR$/rht-monitor/pom.xml" />
+        <option value="$PROJECT_DIR$/rht-consul/pom.xml" />
+        <option value="$PROJECT_DIR$/rht-common/pom.xml" />
+        <option value="$PROJECT_DIR$/rht-core/pom.xml" />
+        <option value="$PROJECT_DIR$/rht-zuul/pom.xml" />
       </list>
     </option>
   </component>
